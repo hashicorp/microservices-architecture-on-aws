@@ -50,7 +50,7 @@ resource "aws_lb" "fruits_alb" {
   security_groups    = [aws_security_group.fruits_alb.id]
   subnets            = aws_subnet.private.*.id
   idle_timeout       = 60
-  internal = true
+  internal           = true
 
   tags = { "Name" = "${var.default_tags.project}-fruits-alb" }
 }
@@ -95,7 +95,7 @@ resource "aws_lb" "vegetables_alb" {
   security_groups    = [aws_security_group.vegetables_alb.id]
   subnets            = aws_subnet.private.*.id
   idle_timeout       = 60
-  internal = true
+  internal           = true
 
   tags = { "Name" = "${var.default_tags.project}-vegetables-alb" }
 }

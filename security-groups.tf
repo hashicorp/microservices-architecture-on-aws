@@ -34,13 +34,13 @@ resource "aws_security_group" "fruits_alb" {
 }
 
 resource "aws_security_group_rule" "fruits_alb_allow_80" {
-  security_group_id = aws_security_group.fruits_alb.id
-  type              = "ingress"
-  protocol          = "tcp"
-  from_port         = 80
-  to_port           = 80
+  security_group_id        = aws_security_group.fruits_alb.id
+  type                     = "ingress"
+  protocol                 = "tcp"
+  from_port                = 80
+  to_port                  = 80
   source_security_group_id = aws_security_group.ecs_client_service.id
-  description       = "Allow HTTP traffic."
+  description              = "Allow HTTP traffic."
 }
 
 resource "aws_security_group_rule" "fruits_alb_allow_outbound" {
@@ -61,13 +61,13 @@ resource "aws_security_group" "vegetables_alb" {
 }
 
 resource "aws_security_group_rule" "vegetables_alb_allow_80" {
-  security_group_id = aws_security_group.vegetables_alb.id
-  type              = "ingress"
-  protocol          = "tcp"
-  from_port         = 80
-  to_port           = 80
+  security_group_id        = aws_security_group.vegetables_alb.id
+  type                     = "ingress"
+  protocol                 = "tcp"
+  from_port                = 80
+  to_port                  = 80
   source_security_group_id = aws_security_group.ecs_client_service.id
-  description       = "Allow HTTP traffic."
+  description              = "Allow HTTP traffic."
 }
 
 resource "aws_security_group_rule" "vegetables_alb_allow_outbound" {
@@ -198,27 +198,27 @@ resource "aws_security_group_rule" "ecs_vegetables_service_allow_outbound" {
 resource "aws_security_group" "database" {
   name_prefix = "${var.default_tags.project}-database"
   description = "Database security group."
-  vpc_id = aws_vpc.main.id
+  vpc_id      = aws_vpc.main.id
 }
 
 resource "aws_security_group_rule" "database_allow_fruits_27017" {
-  security_group_id = aws_security_group.database.id
-  type              = "ingress"
-  protocol          = "tcp"
-  from_port         = 27017
-  to_port           = 27017
+  security_group_id        = aws_security_group.database.id
+  type                     = "ingress"
+  protocol                 = "tcp"
+  from_port                = 27017
+  to_port                  = 27017
   source_security_group_id = aws_security_group.ecs_fruits_service.id
-  description       = "Allow incoming traffic from the Fruits service onto the database port."
+  description              = "Allow incoming traffic from the Fruits service onto the database port."
 }
 
 resource "aws_security_group_rule" "database_allow_vegetables_27017" {
-  security_group_id = aws_security_group.database.id
-  type              = "ingress"
-  protocol          = "tcp"
-  from_port         = 27017
-  to_port           = 27017
+  security_group_id        = aws_security_group.database.id
+  type                     = "ingress"
+  protocol                 = "tcp"
+  from_port                = 27017
+  to_port                  = 27017
   source_security_group_id = aws_security_group.ecs_vegetables_service.id
-  description       = "Allow incoming traffic from the Vegetables service onto the database port."
+  description              = "Allow incoming traffic from the Vegetables service onto the database port."
 }
 
 resource "aws_security_group_rule" "database_allow_outbound" {

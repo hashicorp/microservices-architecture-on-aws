@@ -32,23 +32,23 @@ variable "private_subnet_count" {
 }
 
 variable "database_private_ip" {
-  type = string
+  type        = string
   description = "Private ip address of database"
 }
 
 variable "ec2_key_pair" {
-  type = string
+  type        = string
   description = "EC2 key pair"
 }
 
 variable "database_service_name" {
-  type = string
+  type        = string
   description = "Database service name"
-  default = "database"
+  default     = "database"
 }
 
 variable "database_message" {
-  type = string
+  type        = string
   description = "Database message"
-  default = "Hello from the database"
+  default     = "Hello from the database"
 }
