@@ -193,3 +193,41 @@ resource "aws_security_group_rule" "ecs_vegetables_service_allow_outbound" {
   ipv6_cidr_blocks  = ["::/0"]
   description       = "Allow any outbound traffic."
 }
+
+# Security Group for Database Server
+resource "aws_security_group" "database" {
+  name_prefix = "${var.default_tags.project}-database"
+  description = "Database security group."
+  vpc_id = aws_vpc.main.id
+}
+
+resource "aws_security_group_rule" "database_allow_fruits_27017" {
+  security_group_id = aws_security_group.database.id
+  type              = "ingress"
+  protocol          = "tcp"
+  from_port         = 27017
+  to_port           = 27017
+  source_security_group_id = aws_security_group.ecs_fruits_service.id
+  description       = "Allow incoming traffic from the Fruits service onto the database port."
+}
+
+resource "aws_security_group_rule" "database_allow_vegetables_27017" {
+  security_group_id = aws_security_group.database.id
+  type              = "ingress"
+  protocol          = "tcp"
+  from_port         = 27017
+  to_port           = 27017
+  source_security_group_id = aws_security_group.ecs_vegetables_service.id
+  description       = "Allow incoming traffic from the Vegetables service onto the database port."
+}
+
+resource "aws_security_group_rule" "database_allow_outbound" {
+  security_group_id = aws_security_group.database.id
+  type              = "egress"
+  protocol          = "-1"
+  from_port         = 0
+  to_port           = 0
+  cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
+  description       = "Allow any outbound traffic."
+}

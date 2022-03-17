@@ -30,3 +30,25 @@ variable "private_subnet_count" {
   description = "Number of private subnets to create"
   default     = 2
 }
+
+variable "database_private_ip" {
+  type = string
+  description = "Private ip address of database"
+}
+
+variable "ec2_key_pair" {
+  type = string
+  description = "EC2 key pair"
+}
+
+variable "database_service_name" {
+  type = string
+  description = "Database service name"
+  default = "database"
+}
+
+variable "database_message" {
+  type = string
+  description = "Database message"
+  default = "Hello from the database"
+}

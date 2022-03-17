@@ -75,6 +75,10 @@ resource "aws_ecs_task_definition" "fruits" {
         {
           name  = "MESSAGE"
           value = "Hello from the fruits client!"
+        },
+        {
+          name = "UPSTREAM_URIS"
+          value = "http://${var.database_private_ip}:27017"
         }
       ]
     }
@@ -113,6 +117,10 @@ resource "aws_ecs_task_definition" "vegetables" {
         {
           name  = "MESSAGE"
           value = "Hello from the vegetables client!"
+        },
+        {
+          name = "UPSTREAM_URIS"
+          value = "http://${var.database_private_ip}:27017"
         }
       ]
     }
