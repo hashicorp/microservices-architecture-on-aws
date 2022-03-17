@@ -33,6 +33,48 @@ resource "aws_ecs_task_definition" "client" {
         {
           name  = "MESSAGE"
           value = "Hello from the client!"
+        },
+        {
+          name  = "UPSTREAM_URIS"
+          value = "http://${aws_lb.fruits_alb.dns_name}"
+        }
+      ]
+    }
+  ])
+}
+
+resource "aws_ecs_task_definition" "fruits" {
+  family                   = "${var.default_tags.project}-fruits"
+  requires_compatibilities = ["FARGATE"]
+  # required for Fargate launch type
+  memory       = 512
+  cpu          = 256
+  network_mode = "awsvpc"
+
+  container_definitions = jsonencode([
+    {
+      name      = "fruits"
+      image     = "nicholasjackson/fake-service:v0.23.1"
+      cpu       = 0 # take up proportional cpu
+      essential = true
+
+      portMappings = [
+        {
+          containerPort = 9090
+          hostPort      = 9090 # though, access to the ephemeral port range is needed to connect on EC2, the exact port is required on Fargate from a security group standpoint.
+          protocol      = "tcp"
+        }
+      ]
+
+      # Fake Service settings are set via Environment variables
+      environment = [
+        {
+          name  = "NAME"
+          value = "fruits"
+        },
+        {
+          name  = "MESSAGE"
+          value = "Hello from the fruits client!"
         }
       ]
     }
