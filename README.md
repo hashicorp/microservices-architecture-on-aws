@@ -8,6 +8,7 @@ This repo is split into branches, each representing a part in the series:
 
 - [Part 1](https://github.com/hashicorp/microservices-architecture-on-aws/tree/part-1) - Setting up the Terraform project and creating a VPC
 - [Part 2](https://github.com/hashicorp/microservices-architecture-on-aws/tree/part-2) - Creating your first containerized microservice on Amazon ECS with Terraform
+- [Part 3](https://github.com/hashicorp/microservices-architecture-on-aws/tree/part-3) - Extending your application with private microservices
 ## The Architecture
 
 Our first section of episodes will work towards building out the following architecture:
