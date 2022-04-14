@@ -15,7 +15,7 @@ resource "aws_subnet" "public" {
   count  = var.public_subnet_count
   vpc_id = aws_vpc.main.id
   # 10.255.0.0/20 -> 10.255.0.0/24
-  cidr_block                      = cidrsubnet(aws_vpc.main.cidr_block, 4, count.index)
+  cidr_block                      = local.public_cidr_blocks[count.index]
   ipv6_cidr_block                 = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, count.index)
   map_public_ip_on_launch         = true
   assign_ipv6_address_on_creation = true
@@ -61,7 +61,7 @@ resource "aws_subnet" "private" {
   count  = var.private_subnet_count
   vpc_id = aws_vpc.main.id
   # 10.255.0.0/20 -> 10.255.0.0/24
-  cidr_block = cidrsubnet(aws_vpc.main.cidr_block, 4, count.index + var.public_subnet_count)
+  cidr_block = local.private_cidr_blocks[count.index]
   tags = {
     "Name" = "${var.default_tags.project}-private-${data.aws_availability_zones.available.names[count.index]}"
   }
