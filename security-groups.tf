@@ -301,7 +301,7 @@ resource "aws_security_group_rule" "consul_server_alb_allow_80" {
   protocol          = "tcp"
   from_port         = 80
   to_port           = 80
-  cidr_blocks       = flatten(var.consul_server_allowed_cidr_blocks, [var.vpc_cidr])
+  cidr_blocks       = flatten([var.consul_server_allowed_cidr_blocks, [var.vpc_cidr]])
   description       = "Allow HTTP traffic."
 }
 
