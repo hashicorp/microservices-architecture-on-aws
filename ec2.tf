@@ -15,4 +15,6 @@ resource "aws_instance" "database" {
     DATABASE_SERVICE_NAME = var.database_service_name
     DATABASE_MESSAGE      = var.database_message
   }))
+
+  depends_on = [aws_nat_gateway.nat]
 }
