@@ -144,7 +144,7 @@ resource "aws_lb" "consul_server_alb" {
   idle_timeout = 60
   ip_address_type = "dualstack"
 
-  tags = { "Name" = "${var.aws_default_tags.Project}-consul-server-alb" }
+  tags = { "Name" = "${var.default_tags.project}-consul-server-alb" }
 }
 
 # Consul Server Target Group
@@ -166,7 +166,7 @@ resource "aws_lb_target_group" "consul_server_alb_targets" {
     protocol = "HTTP"
   }
 
-  tags = { "Name" = "${var.aws_default_tags.Project}-consul-server-tg" }
+  tags = { "Name" = "${var.default_tags.project}-consul-server-tg" }
 }
 
 resource "aws_lb_target_group_attachment" "consul_server" {
