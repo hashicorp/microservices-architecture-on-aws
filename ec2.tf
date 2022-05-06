@@ -36,7 +36,15 @@ resource "aws_instance" "consul_server" {
   tags = { "Name" = "${var.default_tags.project}-consul-server" }
 
   user_data = base64encode(templatefile("${path.module}/scripts/server.sh", {
-    // TODO - episode 5 - 4/28/2022
+    CA_PUBLIC_KEY = tls_self_signed_cert.ca_cert.cert_pem
+    CONSUL_SERVER_PUBLIC_KEY = tls_locally_signed_cert.consul_server_signed_cert.cert_pem
+    CONSUL_SERVER_PRIVATE_KEY = tls_private_key.consul_server_key.private_key_pem
+    CONSUL_BOOTSTRAP_TOKEN = random_uuid.consul_bootstrap_token.result
+    CONSUL_GOSSIP_KEY = random_id.consul_gossip_key.b64_std
+    CONSUL_SERVER_COUNT = var.consul_server_count
+    CONSUL_SERVER_DATACENTER = var.consul_dc1_name
+    AUTO_JOIN_TAG = "Name"
+    AUTO_JOIN_TAG_VALUE = "${var.default_tags.project}-consul-server"
   }))
 
   depends_on = [aws_nat_gateway.nat]
