@@ -11,6 +11,7 @@ This repo is split into branches, each representing a part in the series:
 - [Part 3](https://github.com/hashicorp/microservices-architecture-on-aws/tree/part-3) - Extending your application with private microservices
 - [Part 4](https://github.com/hashicorp/microservices-architecture-on-aws/tree/part-4) - Introducing a Service Mesh with Consul
 - [Part 5](https://github.com/hashicorp/microservices-architecture-on-aws/tree/part-5) - Setting Up Your Service Mesh Servers
+- [Part 6](https://github.com/hashicorp/microservices-architecture-on-aws/tree/part-6) - Connecting Amazon ECS Services to Consul Servers
 
 ## The Architecture
 
@@ -45,7 +46,21 @@ The second section of episodes will work towards refactoring the first section's
 
 3. Run `terraform apply` to create the infrastructure on AWS!
 
-4. Run `terraform destroy` when you're done to get rid of the infrastructure.
+4. Open your Consul Server's Load Balancer (output as `consul_server_endpoint`).
+
+5. Run `bash scripts/post-apply.sh` and follow the instructions OR open your terraform statefile and copy your Consul Bootstrap Token.  Use this to Login to the Consul UI.
+  - It may take a few moments for all of the services to come on line.
+
+6. Click on **Services** in the side navigation.
+
+7. Select our "Client" service and then click on the **Topology** tab.
+
+8. Find the red arrow lines between the client service and the fruits / vegetables services.  Click on one of the red arrows to reveal a dialogue box that will ask if you'd like to create an intention.  Click **Create**.
+
+9. Navigate to your Client Application Load Balancer (output as `client_alb_dns`) to confirm that everything is working.
+  - It may take a few moments for the new intentions to be recognized.
+
+10. Run `terraform destroy` when you're done to get rid of the infrastructure.
 
 ## Questions?  Suggestions?  Comments?
 
