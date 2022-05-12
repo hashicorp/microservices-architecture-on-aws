@@ -60,15 +60,15 @@ resource "aws_ecs_service" "vegetables" {
 }
 
 module "consul_acl_controller" {
-  source = "hashicorp/consul-ecs/aws//modules/acl-controller"
+  source  = "hashicorp/consul-ecs/aws//modules/acl-controller"
   version = "0.4.1"
 
-  name_prefix = "${var.default_tags.project}"
+  name_prefix     = var.default_tags.project
   ecs_cluster_arn = aws_ecs_cluster.main.arn
-  region = var.region
+  region          = var.region
 
   consul_bootstrap_token_secret_arn = aws_secretsmanager_secret.consul_bootstrap_token.arn
-  consul_server_ca_cert_arn = aws_secretsmanager_secret.consul_root_ca_cert.arn
+  consul_server_ca_cert_arn         = aws_secretsmanager_secret.consul_root_ca_cert.arn
 
   # Point to a singular server IP.  Even if its not the leader, the request will be forwarded appropriately
   # this keeps us from using the public facing load balancer

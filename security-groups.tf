@@ -160,37 +160,37 @@ resource "aws_security_group_rule" "database_allow_outbound" {
 resource "aws_security_group" "consul_server" {
   name_prefix = "${var.default_tags.project}-consul-server"
   description = "Security Group for the Consul servers"
-  vpc_id = aws_vpc.main.id
+  vpc_id      = aws_vpc.main.id
 }
 
 resource "aws_security_group_rule" "consul_server_allow_server_8300" {
   security_group_id = aws_security_group.consul_server.id
-  type = "ingress"
-  protocol = "tcp"
-  from_port = 8300
-  to_port = 8300
-  self = true
-  description = "Allow RPC traffic from ConsulServer to Server. For data replication between servers."
+  type              = "ingress"
+  protocol          = "tcp"
+  from_port         = 8300
+  to_port           = 8300
+  self              = true
+  description       = "Allow RPC traffic from ConsulServer to Server. For data replication between servers."
 }
 
 resource "aws_security_group_rule" "consul_server_allow_server_8301" {
   security_group_id = aws_security_group.consul_server.id
-  type = "ingress"
-  protocol = "tcp"
-  from_port = 8301
-  to_port = 8301
-  self = true
-  description = "Allow LAN gossip traffic from ConsulServer to Server. For managing cluster membership, distributed health checks of agents and event broadcasts"
+  type              = "ingress"
+  protocol          = "tcp"
+  from_port         = 8301
+  to_port           = 8301
+  self              = true
+  description       = "Allow LAN gossip traffic from ConsulServer to Server. For managing cluster membership, distributed health checks of agents and event broadcasts"
 }
 
 resource "aws_security_group_rule" "consul_server_allow_server_8302" {
   security_group_id = aws_security_group.consul_server.id
-  type = "ingress"
-  protocol = "tcp"
-  from_port = 8302
-  to_port = 8302
-  self = true
-  description = "Allow WAN gossip traffic from ConsulServer to Server. For cross-datacenter communication"
+  type              = "ingress"
+  protocol          = "tcp"
+  from_port         = 8302
+  to_port           = 8302
+  self              = true
+  description       = "Allow WAN gossip traffic from ConsulServer to Server. For cross-datacenter communication"
 }
 
 resource "aws_security_group_rule" "consul_server_allow_alb_8500" {
@@ -205,22 +205,22 @@ resource "aws_security_group_rule" "consul_server_allow_alb_8500" {
 
 resource "aws_security_group_rule" "consul_server_allow_outbound" {
   security_group_id = aws_security_group.consul_server.id
-  type = "egress"
-  protocol = "-1"
-  from_port = 0
-  to_port = 0
-  cidr_blocks = ["0.0.0.0/0"]
-  description = "Allow outbound traffic"
+  type              = "egress"
+  protocol          = "-1"
+  from_port         = 0
+  to_port           = 0
+  cidr_blocks       = ["0.0.0.0/0"]
+  description       = "Allow outbound traffic"
 }
 
 resource "aws_security_group_rule" "consul_server_allow_server_8501" {
-  security_group_id        = aws_security_group.consul_server.id
-  type                     = "ingress"
-  protocol                 = "tcp"
-  from_port                = 8501
-  to_port                  = 8501
-  self = true
-  description              = "Allow HTTPS API traffic from Consul Server to Server."
+  security_group_id = aws_security_group.consul_server.id
+  type              = "ingress"
+  protocol          = "tcp"
+  from_port         = 8501
+  to_port           = 8501
+  self              = true
+  description       = "Allow HTTPS API traffic from Consul Server to Server."
 }
 
 # Access From the Consul Client to Consul Servers
@@ -296,17 +296,17 @@ resource "aws_security_group_rule" "consul_server_alb_allow_outbound" {
 resource "aws_security_group" "acl_controller" {
   name_prefix = "${var.default_tags.project}-acl-controller-"
   description = "Consul ACL Controller service security group."
-  vpc_id = aws_vpc.main.id
+  vpc_id      = aws_vpc.main.id
 }
 
 resource "aws_security_group_rule" "acl_controller_allow_inbound_self" {
   security_group_id = aws_security_group.acl_controller.id
-  type = "ingress"
-  protocol = -1
-  self = true
-  from_port = 0
-  to_port = 0
-  description = "Allow traffic from resources with this security group."
+  type              = "ingress"
+  protocol          = -1
+  self              = true
+  from_port         = 0
+  to_port           = 0
+  description       = "Allow traffic from resources with this security group."
 }
 
 resource "aws_security_group_rule" "acl_controller_allow_outbound" {
@@ -324,29 +324,29 @@ resource "aws_security_group_rule" "acl_controller_allow_outbound" {
 resource "aws_security_group" "consul_client" {
   name_prefix = "${var.default_tags.project}-consul-client-"
   description = "General security group for consul clients."
-  vpc_id = aws_vpc.main.id
+  vpc_id      = aws_vpc.main.id
 }
 
 # Required for gossip traffic between each client
 resource "aws_security_group_rule" "consul_client_allow_inbound_self_8301" {
   security_group_id = aws_security_group.consul_client.id
-  type = "ingress"
-  protocol = "tcp"
-  self = true
-  from_port = 8301
-  to_port = 8301
-  description = "Allow LAN Serf traffic from resources with this security group."
+  type              = "ingress"
+  protocol          = "tcp"
+  self              = true
+  from_port         = 8301
+  to_port           = 8301
+  description       = "Allow LAN Serf traffic from resources with this security group."
 }
 
 # Required to allow the proxies to contact each other
 resource "aws_security_group_rule" "consul_client_allow_inbound_self_20000" {
   security_group_id = aws_security_group.consul_client.id
-  type = "ingress"
-  protocol = "tcp"
-  self = true
-  from_port = 20000
-  to_port = 20000
-  description = "Allow Proxy traffic from resources with this security group."
+  type              = "ingress"
+  protocol          = "tcp"
+  self              = true
+  from_port         = 20000
+  to_port           = 20000
+  description       = "Allow Proxy traffic from resources with this security group."
 }
 
 resource "aws_security_group_rule" "consul_client_allow_outbound" {

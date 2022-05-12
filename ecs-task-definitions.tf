@@ -2,14 +2,14 @@
 # --
 # This is the container that will serve as the entry point for public facing traffic
 module "client" {
-  source = "hashicorp/consul-ecs/aws//modules/mesh-task"
+  source  = "hashicorp/consul-ecs/aws//modules/mesh-task"
   version = "0.4.1"
 
   family                   = "${var.default_tags.project}-client"
   requires_compatibilities = ["FARGATE"]
   # required for Fargate launch type
-  memory       = 512
-  cpu          = 256
+  memory = 512
+  cpu    = 256
 
   container_definitions = [
     {
@@ -45,13 +45,13 @@ module "client" {
   ]
 
   # All settings required by the mesh-task module
-  acls = true
-  acl_secret_name_prefix = var.default_tags.project
-  consul_datacenter = var.consul_dc1_name
-  consul_server_ca_cert_arn = aws_secretsmanager_secret.consul_root_ca_cert.arn
+  acls                           = true
+  acl_secret_name_prefix         = var.default_tags.project
+  consul_datacenter              = var.consul_dc1_name
+  consul_server_ca_cert_arn      = aws_secretsmanager_secret.consul_root_ca_cert.arn
   consul_client_token_secret_arn = module.consul_acl_controller.client_token_secret_arn
-  gossip_key_secret_arn = aws_secretsmanager_secret.consul_gossip_key.arn
-  log_configuration = local.client_sidecars_log_configuration
+  gossip_key_secret_arn          = aws_secretsmanager_secret.consul_gossip_key.arn
+  log_configuration              = local.client_sidecars_log_configuration
 
   # https://github.com/hashicorp/consul-ecs/blob/main/config/schema.json#L74#
   # to tell the proxy and consul-ecs how to contact the service
@@ -75,14 +75,14 @@ module "client" {
       # listening on LOCALLY.
       # https://github.com/hashicorp/consul-ecs/blob/0817f073c665c3933e9455f477b18500616e7c47/config/schema.json#L326
       # the above link is the value this maps to
-      localBindPort  = 1234
+      localBindPort = 1234
     },
     {
       # https://github.com/hashicorp/consul-ecs/blob/85755adb288055df92c1880d30f1861db771ca63/subcommand/mesh-init/command_test.go#L77
       # looks like upstreams need different local bind ports, which begs the question of what a localBindPort is even doing
       # I guess this is just what the service points to that the envoy listener goes through
       destinationName = "${var.default_tags.project}-vegetables"
-      localBindPort  = 1235
+      localBindPort   = 1235
     }
   ]
   # join on the private IPs, much like the consul config "retry_join" argument
@@ -95,14 +95,14 @@ module "client" {
 }
 
 module "fruits" {
-  source = "hashicorp/consul-ecs/aws//modules/mesh-task"
+  source  = "hashicorp/consul-ecs/aws//modules/mesh-task"
   version = "0.4.1"
 
   family                   = "${var.default_tags.project}-fruits"
   requires_compatibilities = ["FARGATE"]
   # required for Fargate launch type
-  memory       = 512
-  cpu          = 256
+  memory = 512
+  cpu    = 256
 
   container_definitions = [
     {
@@ -137,15 +137,15 @@ module "fruits" {
     }
   ]
 
-  acls = true
-  acl_secret_name_prefix = var.default_tags.project
-  consul_datacenter = var.consul_dc1_name
-  consul_server_ca_cert_arn = aws_secretsmanager_secret.consul_root_ca_cert.arn
+  acls                           = true
+  acl_secret_name_prefix         = var.default_tags.project
+  consul_datacenter              = var.consul_dc1_name
+  consul_server_ca_cert_arn      = aws_secretsmanager_secret.consul_root_ca_cert.arn
   consul_client_token_secret_arn = module.consul_acl_controller.client_token_secret_arn
-  gossip_key_secret_arn = aws_secretsmanager_secret.consul_gossip_key.arn
-  port = "9090"
-  log_configuration = local.fruits_sidecars_log_configuration
-  tls = true
+  gossip_key_secret_arn          = aws_secretsmanager_secret.consul_gossip_key.arn
+  port                           = "9090"
+  log_configuration              = local.fruits_sidecars_log_configuration
+  tls                            = true
 
   # isn't needed right now, because there is no "database" service that consul is aware of
   # upstreams = [
@@ -164,14 +164,14 @@ module "fruits" {
 }
 
 module "vegetables" {
-  source = "hashicorp/consul-ecs/aws//modules/mesh-task"
+  source  = "hashicorp/consul-ecs/aws//modules/mesh-task"
   version = "0.4.1"
 
   family                   = "${var.default_tags.project}-vegetables"
   requires_compatibilities = ["FARGATE"]
   # required for Fargate launch type
-  memory       = 512
-  cpu          = 256
+  memory = 512
+  cpu    = 256
 
   container_definitions = [
     {
@@ -206,15 +206,15 @@ module "vegetables" {
     }
   ]
 
-  acls = true
-  acl_secret_name_prefix = var.default_tags.project
-  consul_datacenter = var.consul_dc1_name
-  consul_server_ca_cert_arn = aws_secretsmanager_secret.consul_root_ca_cert.arn
+  acls                           = true
+  acl_secret_name_prefix         = var.default_tags.project
+  consul_datacenter              = var.consul_dc1_name
+  consul_server_ca_cert_arn      = aws_secretsmanager_secret.consul_root_ca_cert.arn
   consul_client_token_secret_arn = module.consul_acl_controller.client_token_secret_arn
-  gossip_key_secret_arn = aws_secretsmanager_secret.consul_gossip_key.arn
-  log_configuration = local.vegetables_sidecars_log_configuration
-  port = "9090"
-  tls = true
+  gossip_key_secret_arn          = aws_secretsmanager_secret.consul_gossip_key.arn
+  log_configuration              = local.vegetables_sidecars_log_configuration
+  port                           = "9090"
+  tls                            = true
   # upstreams = [
   #   {
   #     # this will not work at the moment, because our database
