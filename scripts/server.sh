@@ -68,9 +68,16 @@ ui_config {
   enabled = true
 }
 # https://www.consul.io/docs/security/encryption#rpc-encryption-with-tls
-verify_incoming = true
-verify_outgoing = true
-verify_server_hostname = true
+# these are false for now because this is in beta - to be improved in the future
+verify_incoming = false
+verify_outgoing = false
+verify_server_hostname = false
+
+ports {
+  http = 8500
+  https = 8501
+}
+
 EOF
 
 # Start Consul

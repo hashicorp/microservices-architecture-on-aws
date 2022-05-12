@@ -27,61 +27,6 @@ resource "aws_security_group_rule" "client_alb_allow_outbound" {
   description       = "Allow any outbound traffic."
 }
 
-resource "aws_security_group" "fruits_alb" {
-  name_prefix = "${var.default_tags.project}-ecs-fruits-alb"
-  description = "security group for fruits service application load balancer"
-  vpc_id      = aws_vpc.main.id
-}
-
-resource "aws_security_group_rule" "fruits_alb_allow_80" {
-  security_group_id        = aws_security_group.fruits_alb.id
-  type                     = "ingress"
-  protocol                 = "tcp"
-  from_port                = 80
-  to_port                  = 80
-  source_security_group_id = aws_security_group.ecs_client_service.id
-  description              = "Allow HTTP traffic."
-}
-
-resource "aws_security_group_rule" "fruits_alb_allow_outbound" {
-  security_group_id = aws_security_group.fruits_alb.id
-  type              = "egress"
-  protocol          = "-1"
-  from_port         = 0
-  to_port           = 0
-  cidr_blocks       = ["0.0.0.0/0"]
-  ipv6_cidr_blocks  = ["::/0"]
-  description       = "Allow any outbound traffic."
-}
-
-resource "aws_security_group" "vegetables_alb" {
-  name_prefix = "${var.default_tags.project}-ecs-vegetables-alb"
-  description = "security group for vegetables service application load balancer"
-  vpc_id      = aws_vpc.main.id
-}
-
-resource "aws_security_group_rule" "vegetables_alb_allow_80" {
-  security_group_id        = aws_security_group.vegetables_alb.id
-  type                     = "ingress"
-  protocol                 = "tcp"
-  from_port                = 80
-  to_port                  = 80
-  source_security_group_id = aws_security_group.ecs_client_service.id
-  description              = "Allow HTTP traffic."
-}
-
-resource "aws_security_group_rule" "vegetables_alb_allow_outbound" {
-  security_group_id = aws_security_group.vegetables_alb.id
-  type              = "egress"
-  protocol          = "-1"
-  from_port         = 0
-  to_port           = 0
-  cidr_blocks       = ["0.0.0.0/0"]
-  ipv6_cidr_blocks  = ["::/0"]
-  description       = "Allow any outbound traffic."
-}
-
-
 # Security Group for ECS Client Service.
 resource "aws_security_group" "ecs_client_service" {
   name_prefix = "${var.default_tags.project}-ecs-client-service"
@@ -126,16 +71,6 @@ resource "aws_security_group" "ecs_fruits_service" {
   vpc_id      = aws_vpc.main.id
 }
 
-resource "aws_security_group_rule" "ecs_fruits_service_allow_9090" {
-  security_group_id        = aws_security_group.ecs_fruits_service.id
-  type                     = "ingress"
-  protocol                 = "tcp"
-  from_port                = 9090
-  to_port                  = 9090
-  source_security_group_id = aws_security_group.fruits_alb.id
-  description              = "Allow incoming traffic from the fruits ALB into the service container port."
-}
-
 resource "aws_security_group_rule" "ecs_fruits_service_allow_inbound_self" {
   security_group_id = aws_security_group.ecs_fruits_service.id
   type              = "ingress"
@@ -161,16 +96,6 @@ resource "aws_security_group" "ecs_vegetables_service" {
   name_prefix = "${var.default_tags.project}-ecs-vegetables-service"
   description = "ECS Vegetables service security group."
   vpc_id      = aws_vpc.main.id
-}
-
-resource "aws_security_group_rule" "ecs_vegetables_service_allow_9090" {
-  security_group_id        = aws_security_group.ecs_vegetables_service.id
-  type                     = "ingress"
-  protocol                 = "tcp"
-  from_port                = 9090
-  to_port                  = 9090
-  source_security_group_id = aws_security_group.vegetables_alb.id
-  description              = "Allow incoming traffic from the vegetables ALB into the service container port."
 }
 
 resource "aws_security_group_rule" "ecs_vegetables_service_allow_inbound_self" {
@@ -288,6 +213,58 @@ resource "aws_security_group_rule" "consul_server_allow_outbound" {
   description = "Allow outbound traffic"
 }
 
+resource "aws_security_group_rule" "consul_server_allow_server_8501" {
+  security_group_id        = aws_security_group.consul_server.id
+  type                     = "ingress"
+  protocol                 = "tcp"
+  from_port                = 8501
+  to_port                  = 8501
+  self = true
+  description              = "Allow HTTPS API traffic from Consul Server to Server."
+}
+
+# Access From the Consul Client to Consul Servers
+resource "aws_security_group_rule" "consul_server_allow_client_8300" {
+  security_group_id        = aws_security_group.consul_server.id
+  type                     = "ingress"
+  protocol                 = "tcp"
+  from_port                = 8300
+  to_port                  = 8300
+  source_security_group_id = aws_security_group.consul_client.id
+  description              = "Allow RPC traffic from Consul Client to Server.  For data replication between servers."
+}
+
+resource "aws_security_group_rule" "consul_server_allow_client_8301" {
+  security_group_id        = aws_security_group.consul_server.id
+  type                     = "ingress"
+  protocol                 = "tcp"
+  from_port                = 8301
+  to_port                  = 8301
+  source_security_group_id = aws_security_group.consul_client.id
+  description              = "Allow LAN gossip traffic from Consul Client to Server.  For data replication between servers."
+}
+
+resource "aws_security_group_rule" "consul_server_allow_client_8500" {
+  security_group_id        = aws_security_group.consul_server.id
+  type                     = "ingress"
+  protocol                 = "tcp"
+  from_port                = 8500
+  to_port                  = 8500
+  source_security_group_id = aws_security_group.consul_client.id
+  description              = "Allow HTTP API traffic from Consul Client to Server."
+}
+
+
+resource "aws_security_group_rule" "consul_server_allow_client_8501" {
+  security_group_id        = aws_security_group.consul_server.id
+  type                     = "ingress"
+  protocol                 = "tcp"
+  from_port                = 8501
+  to_port                  = 8501
+  source_security_group_id = aws_security_group.consul_client.id
+  description              = "Allow HTTPS API traffic from Consul Client to Server."
+}
+
 # Consul Server ALB Security Group
 resource "aws_security_group" "consul_server_alb" {
   name_prefix = "${var.default_tags.project}-consul-server-alb"
@@ -316,3 +293,69 @@ resource "aws_security_group_rule" "consul_server_alb_allow_outbound" {
   description       = "Allow any outbound traffic."
 }
 
+resource "aws_security_group" "acl_controller" {
+  name_prefix = "${var.default_tags.project}-acl-controller-"
+  description = "Consul ACL Controller service security group."
+  vpc_id = aws_vpc.main.id
+}
+
+resource "aws_security_group_rule" "acl_controller_allow_inbound_self" {
+  security_group_id = aws_security_group.acl_controller.id
+  type = "ingress"
+  protocol = -1
+  self = true
+  from_port = 0
+  to_port = 0
+  description = "Allow traffic from resources with this security group."
+}
+
+resource "aws_security_group_rule" "acl_controller_allow_outbound" {
+  security_group_id = aws_security_group.acl_controller.id
+  type              = "egress"
+  protocol          = "-1"
+  from_port         = 0
+  to_port           = 0
+  cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
+  description       = "Allow any outbound traffic."
+}
+
+# A Generalized group for all consul clients
+resource "aws_security_group" "consul_client" {
+  name_prefix = "${var.default_tags.project}-consul-client-"
+  description = "General security group for consul clients."
+  vpc_id = aws_vpc.main.id
+}
+
+# Required for gossip traffic between each client
+resource "aws_security_group_rule" "consul_client_allow_inbound_self_8301" {
+  security_group_id = aws_security_group.consul_client.id
+  type = "ingress"
+  protocol = "tcp"
+  self = true
+  from_port = 8301
+  to_port = 8301
+  description = "Allow LAN Serf traffic from resources with this security group."
+}
+
+# Required to allow the proxies to contact each other
+resource "aws_security_group_rule" "consul_client_allow_inbound_self_20000" {
+  security_group_id = aws_security_group.consul_client.id
+  type = "ingress"
+  protocol = "tcp"
+  self = true
+  from_port = 20000
+  to_port = 20000
+  description = "Allow Proxy traffic from resources with this security group."
+}
+
+resource "aws_security_group_rule" "consul_client_allow_outbound" {
+  security_group_id = aws_security_group.consul_client.id
+  type              = "egress"
+  protocol          = "-1"
+  from_port         = 0
+  to_port           = 0
+  cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
+  description       = "Allow any outbound traffic."
+}
