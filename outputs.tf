@@ -13,3 +13,8 @@ output "consul_server_endpoint" {
   description = "The ALB endpoint for the Consul Servers."
   value       = aws_lb.consul_server_alb.dns_name
 }
+
+output "project_tag" {
+  description = "the tag used on all deployed resources and also as the service prefix"
+  value = local.project_tag
+}
