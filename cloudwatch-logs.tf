@@ -1,29 +1,29 @@
 resource "aws_cloudwatch_log_group" "client" {
-  name = "${local.project_tag}-client-logs"
+  name_prefix = "${local.project_tag}-client-"
 }
 
 resource "aws_cloudwatch_log_group" "client_sidecars" {
-  name = "${local.project_tag}-client-sidecars-logs"
+  name_prefix = "${local.project_tag}-client-sidecars-"
 }
 
 resource "aws_cloudwatch_log_group" "fruits" {
-  name = "${local.project_tag}-fruits-logs"
+  name_prefix = "${local.project_tag}-fruits-"
 }
 
 resource "aws_cloudwatch_log_group" "fruits_sidecars" {
-  name = "${local.project_tag}-fruits-sidecars-logs"
+  name_prefix = "${local.project_tag}-fruits-sidecars-"
 }
 
 resource "aws_cloudwatch_log_group" "vegetables" {
-  name = "${local.project_tag}-vegetables-logs"
+  name_prefix = "${local.project_tag}-vegetables-"
 }
 
 resource "aws_cloudwatch_log_group" "vegetables_sidecars" {
-  name = "${local.project_tag}-vegetables-sidecars-logs"
+  name_prefix = "${local.project_tag}-vegetables-sidecars-"
 }
 
 resource "aws_cloudwatch_log_group" "acl" {
-  name = "${local.project_tag}-acl-logs"
+  name_prefix = "${local.project_tag}-acl-"
 }
 
 locals {
