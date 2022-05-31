@@ -1,6 +1,6 @@
 # Security Group for Client ALB
 resource "aws_security_group" "client_alb" {
-  name_prefix = "${var.default_tags.project}-ecs-client-alb"
+  name_prefix = "${local.project_tag}-ecs-client-alb"
   description = "security group for client service application load balancer"
   vpc_id      = aws_vpc.main.id
 }
@@ -29,7 +29,7 @@ resource "aws_security_group_rule" "client_alb_allow_outbound" {
 
 # Security Group for ECS Client Service.
 resource "aws_security_group" "ecs_client_service" {
-  name_prefix = "${var.default_tags.project}-ecs-client-service"
+  name_prefix = "${local.project_tag}-ecs-client-service"
   description = "ECS Client service security group."
   vpc_id      = aws_vpc.main.id
 }
@@ -66,7 +66,7 @@ resource "aws_security_group_rule" "ecs_client_service_allow_outbound" {
 }
 
 resource "aws_security_group" "ecs_fruits_service" {
-  name_prefix = "${var.default_tags.project}-ecs-fruits-service"
+  name_prefix = "${local.project_tag}-ecs-fruits-service"
   description = "ECS Fruits service security group."
   vpc_id      = aws_vpc.main.id
 }
@@ -93,7 +93,7 @@ resource "aws_security_group_rule" "ecs_fruits_service_allow_outbound" {
 }
 
 resource "aws_security_group" "ecs_vegetables_service" {
-  name_prefix = "${var.default_tags.project}-ecs-vegetables-service"
+  name_prefix = "${local.project_tag}-ecs-vegetables-service"
   description = "ECS Vegetables service security group."
   vpc_id      = aws_vpc.main.id
 }
@@ -121,7 +121,7 @@ resource "aws_security_group_rule" "ecs_vegetables_service_allow_outbound" {
 
 # Security Group for Database Server
 resource "aws_security_group" "database" {
-  name_prefix = "${var.default_tags.project}-database"
+  name_prefix = "${local.project_tag}-database"
   description = "Database security group."
   vpc_id      = aws_vpc.main.id
 }
@@ -158,7 +158,7 @@ resource "aws_security_group_rule" "database_allow_outbound" {
 }
 
 resource "aws_security_group" "consul_server" {
-  name_prefix = "${var.default_tags.project}-consul-server"
+  name_prefix = "${local.project_tag}-consul-server"
   description = "Security Group for the Consul servers"
   vpc_id      = aws_vpc.main.id
 }
@@ -267,7 +267,7 @@ resource "aws_security_group_rule" "consul_server_allow_client_8501" {
 
 # Consul Server ALB Security Group
 resource "aws_security_group" "consul_server_alb" {
-  name_prefix = "${var.default_tags.project}-consul-server-alb"
+  name_prefix = "${local.project_tag}-consul-server-alb"
   description = "Security Group for the ALB fronting the consul server"
   vpc_id      = aws_vpc.main.id
 }
@@ -294,7 +294,7 @@ resource "aws_security_group_rule" "consul_server_alb_allow_outbound" {
 }
 
 resource "aws_security_group" "acl_controller" {
-  name_prefix = "${var.default_tags.project}-acl-controller-"
+  name_prefix = "${local.project_tag}-acl-controller-"
   description = "Consul ACL Controller service security group."
   vpc_id      = aws_vpc.main.id
 }
@@ -322,7 +322,7 @@ resource "aws_security_group_rule" "acl_controller_allow_outbound" {
 
 # A Generalized group for all consul clients
 resource "aws_security_group" "consul_client" {
-  name_prefix = "${var.default_tags.project}-consul-client-"
+  name_prefix = "${local.project_tag}-consul-client-"
   description = "General security group for consul clients."
   vpc_id      = aws_vpc.main.id
 }

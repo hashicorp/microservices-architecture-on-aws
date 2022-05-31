@@ -1,6 +1,6 @@
 # User Facing Client Service
 resource "aws_ecs_service" "client" {
-  name            = "${var.default_tags.project}-client"
+  name            = "${local.project_tag}-client"
   cluster         = aws_ecs_cluster.main.arn
   task_definition = module.client.task_definition_arn
   desired_count   = 1
@@ -24,7 +24,7 @@ resource "aws_ecs_service" "client" {
 }
 
 resource "aws_ecs_service" "fruits" {
-  name            = "${var.default_tags.project}-fruits"
+  name            = "${local.project_tag}-fruits"
   cluster         = aws_ecs_cluster.main.arn
   task_definition = module.fruits.task_definition_arn
   desired_count   = 3
@@ -42,7 +42,7 @@ resource "aws_ecs_service" "fruits" {
 }
 
 resource "aws_ecs_service" "vegetables" {
-  name            = "${var.default_tags.project}-vegetables"
+  name            = "${local.project_tag}-vegetables"
   cluster         = aws_ecs_cluster.main.arn
   task_definition = module.vegetables.task_definition_arn
   desired_count   = 1
@@ -63,7 +63,7 @@ module "consul_acl_controller" {
   source  = "hashicorp/consul-ecs/aws//modules/acl-controller"
   version = "0.4.1"
 
-  name_prefix     = var.default_tags.project
+  name_prefix     = local.project_tag
   ecs_cluster_arn = aws_ecs_cluster.main.arn
   region          = var.region
 

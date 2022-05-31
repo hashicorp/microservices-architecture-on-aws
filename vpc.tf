@@ -2,7 +2,7 @@
 resource "aws_vpc" "main" {
   cidr_block = var.vpc_cidr
   tags = {
-    "Name" = "${var.default_tags.project}-vpc"
+    "Name" = "${local.project_tag}-vpc"
   }
   assign_generated_ipv6_cidr_block = true
   instance_tenancy                 = "default"
@@ -20,7 +20,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch         = true
   assign_ipv6_address_on_creation = true
   tags = {
-    "Name" = "${var.default_tags.project}-public-${data.aws_availability_zones.available.names[count.index]}"
+    "Name" = "${local.project_tag}-public-${data.aws_availability_zones.available.names[count.index]}"
   }
   availability_zone = data.aws_availability_zones.available.names[count.index]
 }
@@ -29,7 +29,7 @@ resource "aws_subnet" "public" {
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
   tags = {
-    "Name" = "${var.default_tags.project}-public-route-table"
+    "Name" = "${local.project_tag}-public-route-table"
   }
 }
 
@@ -38,7 +38,7 @@ resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "${var.default_tags.project}-internet-gateway"
+    Name = "${local.project_tag}-internet-gateway"
   }
 }
 
@@ -63,7 +63,7 @@ resource "aws_subnet" "private" {
   # 10.255.0.0/20 -> 10.255.0.0/24
   cidr_block = local.private_cidr_blocks[count.index]
   tags = {
-    "Name" = "${var.default_tags.project}-private-${data.aws_availability_zones.available.names[count.index]}"
+    "Name" = "${local.project_tag}-private-${data.aws_availability_zones.available.names[count.index]}"
   }
   availability_zone = data.aws_availability_zones.available.names[count.index]
 }
@@ -72,7 +72,7 @@ resource "aws_subnet" "private" {
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.main.id
   tags = {
-    "Name" = "${var.default_tags.project}-private-route-table"
+    "Name" = "${local.project_tag}-private-route-table"
   }
 }
 
@@ -80,7 +80,7 @@ resource "aws_route_table" "private" {
 resource "aws_eip" "nat" {
   vpc = true
   tags = {
-    "Name" = "${var.default_tags.project}-nat-eip"
+    "Name" = "${local.project_tag}-nat-eip"
   }
 }
 
@@ -90,7 +90,7 @@ resource "aws_nat_gateway" "nat" {
   subnet_id     = aws_subnet.public.0.id
 
   tags = {
-    "Name" = "${var.default_tags.project}-nat"
+    "Name" = "${local.project_tag}-nat"
   }
 
   # To ensure proper ordering, it is recommended to add an explicit dependency
