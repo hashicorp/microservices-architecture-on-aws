@@ -78,6 +78,38 @@ ports {
   https = 8501
 }
 
+# Extra configurations to load up on bootstrap.  We're going to create intentions instead of having to do it via UI.
+config_entries {
+  bootstrap = [
+    {
+      kind = "proxy-defaults"
+      name = "global"
+      config {
+        protocol = "http"
+      }
+    },
+    {
+      Kind = "service-intentions"
+      Name = "${SERVICE_NAME_PREFIX}-fruits"
+      Sources = [
+        {
+          Name = "${SERVICE_NAME_PREFIX}-client"
+          Action = "allow"
+        }
+      ]
+    },
+    {
+      Kind = "service-intentions"
+      Name = "${SERVICE_NAME_PREFIX}-vegetables"
+      Sources = [
+        {
+          Name = "${SERVICE_NAME_PREFIX}-client"
+          Action = "allow"
+        }
+      ]
+    }
+  ]
+}
 EOF
 
 # Start Consul
