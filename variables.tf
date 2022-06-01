@@ -34,6 +34,7 @@ variable "private_subnet_count" {
 variable "database_private_ip" {
   type        = string
   description = "Private ip address of database"
+  default = "10.255.3.253"
 }
 
 variable "ec2_key_pair" {
