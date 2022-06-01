@@ -33,7 +33,8 @@ variable "private_subnet_count" {
 
 variable "database_private_ip" {
   type        = string
-  description = "Private ip address of database"
+  description = "Private ip address of database. Make sure the IP is within the range of the vpc_cidr variable."
+  default = "10.255.2.253"
 }
 
 variable "ec2_key_pair" {

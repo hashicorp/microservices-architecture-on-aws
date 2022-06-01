@@ -1,5 +1,5 @@
 resource "aws_secretsmanager_secret" "consul_gossip_key" {
-  name_prefix = "${var.default_tags.project}-gossip-key-"
+  name_prefix = "${local.project_tag}-gossip-key-"
 }
 
 resource "aws_secretsmanager_secret_version" "consul_gossip_key" {
@@ -8,7 +8,7 @@ resource "aws_secretsmanager_secret_version" "consul_gossip_key" {
 }
 
 resource "aws_secretsmanager_secret" "consul_bootstrap_token" {
-  name_prefix = "${var.default_tags.project}-bootstrap-token-"
+  name_prefix = "${local.project_tag}-bootstrap-token-"
 }
 
 resource "aws_secretsmanager_secret_version" "consul_bootstrap_token" {
@@ -17,7 +17,7 @@ resource "aws_secretsmanager_secret_version" "consul_bootstrap_token" {
 }
 
 resource "aws_secretsmanager_secret" "consul_root_ca_cert" {
-  name_prefix = "${var.default_tags.project}-root-ca-cert-"
+  name_prefix = "${local.project_tag}-root-ca-cert-"
 }
 
 resource "aws_secretsmanager_secret_version" "consul_root_ca_cert" {

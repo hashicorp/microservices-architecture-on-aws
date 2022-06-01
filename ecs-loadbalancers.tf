@@ -7,7 +7,7 @@ resource "aws_lb" "client_alb" {
   idle_timeout       = 60
   ip_address_type    = "dualstack"
 
-  tags = { "Name" = "${var.default_tags.project}-client-alb" }
+  tags = { "Name" = "${local.project_tag}-client-alb" }
 }
 
 # User Facing Client Target Group
@@ -29,7 +29,7 @@ resource "aws_lb_target_group" "client_alb_targets" {
     protocol            = "HTTP"
   }
 
-  tags = { "Name" = "${var.default_tags.project}-client-tg" }
+  tags = { "Name" = "${local.project_tag}-client-tg" }
 }
 
 # User Facing Client ALB Listeners
@@ -54,7 +54,7 @@ resource "aws_lb" "consul_server_alb" {
   idle_timeout       = 60
   ip_address_type    = "dualstack"
 
-  tags = { "Name" = "${var.default_tags.project}-consul-server-alb" }
+  tags = { "Name" = "${local.project_tag}-consul-server-alb" }
 }
 
 # Consul Server Target Group
@@ -76,7 +76,7 @@ resource "aws_lb_target_group" "consul_server_alb_targets" {
     protocol            = "HTTP"
   }
 
-  tags = { "Name" = "${var.default_tags.project}-consul-server-tg" }
+  tags = { "Name" = "${local.project_tag}-consul-server-tg" }
 }
 
 resource "aws_lb_target_group_attachment" "consul_server" {

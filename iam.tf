@@ -1,6 +1,6 @@
 # Consul Instance Role
 resource "aws_iam_role" "consul_instance" {
-  name_prefix        = "${var.default_tags.project}-role-"
+  name_prefix        = "${local.project_tag}-role-"
   assume_role_policy = data.aws_iam_policy_document.instance_trust_policy.json
 }
 
@@ -34,13 +34,13 @@ data "aws_iam_policy_document" "instance_permissions_policy" {
 
 ## Consul Instance Role <> Policy Attachment
 resource "aws_iam_role_policy" "consul_instance_policy" {
-  name_prefix = "${var.default_tags.project}-instance-policy-"
+  name_prefix = "${local.project_tag}-instance-policy-"
   role        = aws_iam_role.consul_instance.id
   policy      = data.aws_iam_policy_document.instance_permissions_policy.json
 }
 
 ## Consul Instance Profile <> Role Attachment
 resource "aws_iam_instance_profile" "consul_instance_profile" {
-  name_prefix = "${var.default_tags.project}-instance-profile-"
+  name_prefix = "${local.project_tag}-instance-profile-"
   role        = aws_iam_role.consul_instance.name
 }

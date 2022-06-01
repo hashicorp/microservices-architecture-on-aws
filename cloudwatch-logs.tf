@@ -1,29 +1,29 @@
 resource "aws_cloudwatch_log_group" "client" {
-  name = "${var.default_tags.project}-client-logs"
+  name_prefix = "${local.project_tag}-client-"
 }
 
 resource "aws_cloudwatch_log_group" "client_sidecars" {
-  name = "${var.default_tags.project}-client-sidecars-logs"
+  name_prefix = "${local.project_tag}-client-sidecars-"
 }
 
 resource "aws_cloudwatch_log_group" "fruits" {
-  name = "${var.default_tags.project}-fruits-logs"
+  name_prefix = "${local.project_tag}-fruits-"
 }
 
 resource "aws_cloudwatch_log_group" "fruits_sidecars" {
-  name = "${var.default_tags.project}-fruits-sidecars-logs"
+  name_prefix = "${local.project_tag}-fruits-sidecars-"
 }
 
 resource "aws_cloudwatch_log_group" "vegetables" {
-  name = "${var.default_tags.project}-vegetables-logs"
+  name_prefix = "${local.project_tag}-vegetables-"
 }
 
 resource "aws_cloudwatch_log_group" "vegetables_sidecars" {
-  name = "${var.default_tags.project}-vegetables-sidecars-logs"
+  name_prefix = "${local.project_tag}-vegetables-sidecars-"
 }
 
 resource "aws_cloudwatch_log_group" "acl" {
-  name = "${var.default_tags.project}-acl-logs"
+  name_prefix = "${local.project_tag}-acl-"
 }
 
 locals {
@@ -32,7 +32,7 @@ locals {
     options = {
       awslogs-group         = aws_cloudwatch_log_group.acl.name
       awslogs-region        = var.region
-      awslogs-stream-prefix = "${var.default_tags.project}-acl-"
+      awslogs-stream-prefix = "${local.project_tag}-acl-"
     }
   }
   client_logs_configuration = {
@@ -40,7 +40,7 @@ locals {
     options = {
       awslogs-group         = aws_cloudwatch_log_group.client.name
       awslogs-region        = var.region
-      awslogs-stream-prefix = "${var.default_tags.project}-client"
+      awslogs-stream-prefix = "${local.project_tag}-client"
     }
   }
   client_sidecars_log_configuration = {
@@ -48,7 +48,7 @@ locals {
     options = {
       awslogs-group         = aws_cloudwatch_log_group.client_sidecars.name
       awslogs-region        = var.region
-      awslogs-stream-prefix = "${var.default_tags.project}-client-sidecars-"
+      awslogs-stream-prefix = "${local.project_tag}-client-sidecars-"
     }
   }
   fruits_log_configuration = {
@@ -56,7 +56,7 @@ locals {
     options = {
       awslogs-group         = aws_cloudwatch_log_group.fruits.name
       awslogs-region        = var.region
-      awslogs-stream-prefix = "${var.default_tags.project}-fruits"
+      awslogs-stream-prefix = "${local.project_tag}-fruits"
     }
   }
   fruits_sidecars_log_configuration = {
@@ -64,7 +64,7 @@ locals {
     options = {
       awslogs-group         = aws_cloudwatch_log_group.fruits_sidecars.name
       awslogs-region        = var.region
-      awslogs-stream-prefix = "${var.default_tags.project}-fruits-sidecars-"
+      awslogs-stream-prefix = "${local.project_tag}-fruits-sidecars-"
     }
   }
   vegetables_log_configuration = {
@@ -72,7 +72,7 @@ locals {
     options = {
       awslogs-group         = aws_cloudwatch_log_group.vegetables.name
       awslogs-region        = var.region
-      awslogs-stream-prefix = "${var.default_tags.project}-vegetables"
+      awslogs-stream-prefix = "${local.project_tag}-vegetables"
     }
   }
   vegetables_sidecars_log_configuration = {
@@ -80,7 +80,7 @@ locals {
     options = {
       awslogs-group         = aws_cloudwatch_log_group.vegetables_sidecars.name
       awslogs-region        = var.region
-      awslogs-stream-prefix = "${var.default_tags.project}-vegetables-sidecars-"
+      awslogs-stream-prefix = "${local.project_tag}-vegetables-sidecars-"
     }
   }
 }
