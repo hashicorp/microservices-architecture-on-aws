@@ -40,7 +40,7 @@ locals {
     options = {
       awslogs-group         = aws_cloudwatch_log_group.client.name
       awslogs-region        = var.region
-      awslogs-stream-prefix = "${local.project_tag}-client"
+      awslogs-stream-prefix = "${local.project_tag}-client-"
     }
   }
   client_sidecars_log_configuration = {
@@ -56,7 +56,7 @@ locals {
     options = {
       awslogs-group         = aws_cloudwatch_log_group.fruits.name
       awslogs-region        = var.region
-      awslogs-stream-prefix = "${local.project_tag}-fruits"
+      awslogs-stream-prefix = "${local.project_tag}-fruits-"
     }
   }
   fruits_sidecars_log_configuration = {
@@ -72,7 +72,7 @@ locals {
     options = {
       awslogs-group         = aws_cloudwatch_log_group.vegetables.name
       awslogs-region        = var.region
-      awslogs-stream-prefix = "${local.project_tag}-vegetables"
+      awslogs-stream-prefix = "${local.project_tag}-vegetables-"
     }
   }
   vegetables_sidecars_log_configuration = {
