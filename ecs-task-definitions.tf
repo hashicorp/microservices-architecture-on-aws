@@ -26,6 +26,8 @@ module "client" {
         }
       ]
 
+      logConfiguration = local.client_logs_configuration
+
       # Fake Service settings are set via Environment variables
       environment = [
         {
@@ -119,6 +121,8 @@ module "fruits" {
         }
       ]
 
+      logConfiguration = local.fruits_log_configuration
+
       # Fake Service settings are set via Environment variables
       environment = [
         {
@@ -187,6 +191,8 @@ module "vegetables" {
           protocol      = "tcp"
         }
       ]
+
+      logConfiguration = local.vegetables_log_configuration
 
       # Fake Service settings are set via Environment variables
       environment = [
