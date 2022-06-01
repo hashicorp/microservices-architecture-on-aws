@@ -27,7 +27,7 @@ resource "aws_ecs_service" "fruits" {
   name            = "${local.project_tag}-fruits"
   cluster         = aws_ecs_cluster.main.arn
   task_definition = module.fruits.task_definition_arn
-  desired_count   = 3
+  desired_count   = 1
   launch_type     = "FARGATE"
 
   network_configuration {
