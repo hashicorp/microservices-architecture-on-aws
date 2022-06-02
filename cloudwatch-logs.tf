@@ -14,6 +14,14 @@ resource "aws_cloudwatch_log_group" "fruits_sidecars" {
   name_prefix = "${local.project_tag}-fruits-sidecars-"
 }
 
+resource "aws_cloudwatch_log_group" "fruits_v2" {
+  name_prefix = "${local.project_tag}-fruits-v2-"
+}
+
+resource "aws_cloudwatch_log_group" "fruits_v2_sidecars" {
+  name_prefix = "${local.project_tag}-fruits-v2-sidecars-"
+}
+
 resource "aws_cloudwatch_log_group" "vegetables" {
   name_prefix = "${local.project_tag}-vegetables-"
 }
@@ -65,6 +73,22 @@ locals {
       awslogs-group         = aws_cloudwatch_log_group.fruits_sidecars.name
       awslogs-region        = var.region
       awslogs-stream-prefix = "${local.project_tag}-fruits-sidecars-"
+    }
+  }
+  fruits_v2_log_configuration = {
+    logDriver = "awslogs"
+    options = {
+      awslogs-group         = aws_cloudwatch_log_group.fruits_v2.name
+      awslogs-region        = var.region
+      awslogs-stream-prefix = "${local.project_tag}-fruits-v2-"
+    }
+  }
+  fruits_v2_sidecars_log_configuration = {
+    logDriver = "awslogs"
+    options = {
+      awslogs-group         = aws_cloudwatch_log_group.fruits_v2_sidecars.name
+      awslogs-region        = var.region
+      awslogs-stream-prefix = "${local.project_tag}-fruits-v2-sidecars-"
     }
   }
   vegetables_log_configuration = {
