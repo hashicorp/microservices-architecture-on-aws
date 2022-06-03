@@ -5,6 +5,13 @@ terraform {
       version = "~> 4.15.1"
     }
   }
+
+  cloud {
+    organization = var.tfc_organization
+    workspaces {
+      tags = [var.tfc_workspace_tag]
+    }
+  }
 }
 
 # Configure the AWS Provider

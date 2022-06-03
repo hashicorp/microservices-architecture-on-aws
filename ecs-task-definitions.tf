@@ -167,6 +167,66 @@ module "fruits" {
   ]
 }
 
+module "fruits_v2" {
+  source  = "hashicorp/consul-ecs/aws//modules/mesh-task"
+  version = "0.4.1"
+
+  family                   = "${local.project_tag}-fruits-v2"
+  requires_compatibilities = ["FARGATE"]
+  # required for Fargate launch type
+  memory = 512
+  cpu    = 256
+
+  container_definitions = [
+    {
+      name      = "fruits"
+      image     = "nicholasjackson/fake-service:v0.23.1"
+      cpu       = 0 # take up proportional cpu
+      essential = true
+
+      portMappings = [
+        {
+          containerPort = 9090
+          hostPort      = 9090 # though, access to the ephemeral port range is needed to connect on EC2, the exact port is required on Fargate from a security group standpoint.
+          protocol      = "tcp"
+        }
+      ]
+
+      logConfiguration = local.fruits_v2_log_configuration
+
+      # Fake Service settings are set via Environment variables
+      environment = [
+        {
+          name  = "NAME"
+          value = "fruits"
+        },
+        {
+          name  = "MESSAGE"
+          value = "Hello from the fruits service version 2!"
+        },
+        {
+          name  = "UPSTREAM_URIS"
+          value = "http://${var.database_private_ip}:27017"
+        }
+      ]
+    }
+  ]
+
+  acls                           = true
+  acl_secret_name_prefix         = local.project_tag
+  consul_datacenter              = var.consul_dc1_name
+  consul_server_ca_cert_arn      = aws_secretsmanager_secret.consul_root_ca_cert.arn
+  consul_client_token_secret_arn = module.consul_acl_controller.client_token_secret_arn
+  gossip_key_secret_arn          = aws_secretsmanager_secret.consul_gossip_key.arn
+  port                           = "9090"
+  log_configuration              = local.fruits_v2_sidecars_log_configuration
+  tls                            = true
+  retry_join = local.server_private_ips
+  depends_on = [
+    module.consul_acl_controller
+  ]
+}
+
 module "vegetables" {
   source  = "hashicorp/consul-ecs/aws//modules/mesh-task"
   version = "0.4.1"

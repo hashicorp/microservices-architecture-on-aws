@@ -41,6 +41,22 @@ resource "aws_ecs_service" "fruits" {
   propagate_tags = "TASK_DEFINITION"
 }
 
+resource "aws_ecs_service" "fruits_v2" {
+  name            = "${local.project_tag}-fruits-v2"
+  cluster         = aws_ecs_cluster.main.arn
+  task_definition = module.fruits_v2.task_definition_arn
+  desired_count   = 1
+  launch_type     = "FARGATE"
+
+  network_configuration {
+    subnets          = aws_subnet.private.*.id
+    assign_public_ip = false
+    security_groups = [aws_security_group.ecs_fruits_service.id, aws_security_group.consul_client.id]
+  }
+
+  propagate_tags = "TASK_DEFINITION"
+}
+
 resource "aws_ecs_service" "vegetables" {
   name            = "${local.project_tag}-vegetables"
   cluster         = aws_ecs_cluster.main.arn
