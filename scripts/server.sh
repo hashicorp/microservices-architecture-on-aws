@@ -1,24 +1,29 @@
 #!/bin/bash
 
+CA_PUBLIC_KEY_LOCATION="/etc/consul.d/certs/consul-agent-ca.pem"
+CONSUL_SERVER_PUBLIC_KEY_LOCATION="/etc/consul.d/certs/consul-server-cert.pem"
+CONSUL_SERVER_PRIVATE_KEY_LOCATION="/etc/consul.d/certs/consul-server-key.pem"
+CONSUL_VERSION="1.11.4"
+
 # Install Consul.  This verifies the download via GPG and then creates...
 # 1 - a default /etc/consul.d/consul.hcl
 # 2 - a default systemd consul.service file
 curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
 apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-apt update && apt install -y consul=1.11.4
+apt update && apt install -y consul=$${CONSUL_VERSION}
 
 # Make directory for certs
 mkdir /etc/consul.d/certs
 
-cat > /etc/consul.d/certs/consul-agent-ca.pem <<- EOF
+cat > $${CA_PUBLIC_KEY_LOCATION} <<- EOF
 ${CA_PUBLIC_KEY}
 EOF
 
-cat > /etc/consul.d/certs/consul-server-cert.pem <<- EOF
+cat > $${CONSUL_SERVER_PUBLIC_KEY_LOCATION} <<- EOF
 ${CONSUL_SERVER_PUBLIC_KEY}
 EOF
 
-cat > /etc/consul.d/certs/consul-server-key.pem <<- EOF
+cat > $${CONSUL_SERVER_PRIVATE_KEY_LOCATION} <<- EOF
 ${CONSUL_SERVER_PRIVATE_KEY}
 EOF
 
@@ -44,9 +49,9 @@ client_addr = "0.0.0.0"
 # number of servers to wait for until bootstrapping
 bootstrap_expect=${CONSUL_SERVER_COUNT}
 # root certificate authority public cert to verify signatures
-ca_file = "/etc/consul.d/certs/consul-agent-ca.pem"
+ca_file = $${CA_PUBLIC_KEY_LOCATION}
 # public certificate of the server
-cert_file = "/etc/consul.d/certs/consul-server-cert.pem"
+cert_file = $${CONSUL_SERVER_PUBLIC_KEY_LOCATION}
 # enable "Connect" which is Consul's Service Mesh
 connect {
   enabled = true
@@ -114,3 +119,6 @@ EOF
 
 # Start Consul
 systemctl start consul
+
+# Enable Consul to start on instance restart
+systemctl enable consul

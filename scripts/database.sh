@@ -27,3 +27,6 @@ EOF
 # Reload unit files and start the database service
 systemctl daemon-reload
 systemctl start database
+
+# Enable the DB daemon to start on instance restart
+systemctl enable database
