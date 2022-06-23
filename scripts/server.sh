@@ -63,7 +63,7 @@ data_dir = "/opt/consul"
 # the 32byte key for Gossip encryption - uses AES Galois/Counter Mode (GCM)
 encrypt = "${CONSUL_GOSSIP_KEY}"
 # private key for the server
-key_file = "/etc/consul.d/certs/consul-server-key.pem"
+key_file = $${CONSUL_SERVER_PRIVATE_KEY_LOCATION}
 # how the consul nodes will go about joining each other
 retry_join = ["provider=aws tag_key=\"${AUTO_JOIN_TAG}\" tag_value=\"${AUTO_JOIN_TAG_VALUE}\""]
 # whether this consul agent is a server or client
