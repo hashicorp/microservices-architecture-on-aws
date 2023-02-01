@@ -1,4 +1,7 @@
 #!/bin/bash
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 
 # Install Consul.  This verifies the download via GPG and then creates...
 # 1 - a default /etc/consul.d/consul.hcl

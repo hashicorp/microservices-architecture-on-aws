@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 # User Facing Client Service
 resource "aws_ecs_service" "client" {
   name            = "${local.project_tag}-client"

@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 # User Facing Client Task Definition
 # --
 # This is the container that will serve as the entry point for public facing traffic

@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 resource "aws_secretsmanager_secret" "consul_gossip_key" {
   name_prefix = "${local.project_tag}-gossip-key-"
 }
