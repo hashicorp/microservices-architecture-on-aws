@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 # Security Group for Client ALB
 resource "aws_security_group" "client_alb" {
   name_prefix = "${local.project_tag}-ecs-client-alb"

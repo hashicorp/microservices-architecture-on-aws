@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 locals {
   project_tag = terraform.workspace == "default" ? var.default_tags.project : terraform.workspace
   public_cidr_blocks  = [for i in range(var.public_subnet_count) : cidrsubnet(var.vpc_cidr, 4, i)]

@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 export CONSUL_BOOTSTRAP_TOKEN=$(terraform output -raw consul_bootstrap_token)
 
 echo "$CONSUL_BOOTSTRAP_TOKEN" > consul_token.txt

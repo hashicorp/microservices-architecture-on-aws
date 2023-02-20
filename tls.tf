@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 # Root Certificate Authority
 resource "tls_private_key" "ca_key" {
   algorithm   = "ECDSA"

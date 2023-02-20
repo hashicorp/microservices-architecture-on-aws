@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 output "client_alb_dns" {
   value       = aws_lb.client_alb.dns_name
   description = "DNS name of the AWS ALB for Client service"

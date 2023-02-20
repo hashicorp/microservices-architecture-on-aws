@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 variable "default_tags" {
   type        = map(string)
   description = "Map of default tags to apply to resources"

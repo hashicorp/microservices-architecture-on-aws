@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 # Consul Instance Role
 resource "aws_iam_role" "consul_instance" {
   name_prefix        = "${local.project_tag}-role-"

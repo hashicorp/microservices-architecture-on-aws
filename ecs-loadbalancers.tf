@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 # User Facing Client Application Load Balancer
 resource "aws_lb" "client_alb" {
   name_prefix        = "cl-" # 6 char length
