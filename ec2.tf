@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2022, 2026
+
 data "aws_ssm_parameter" "ubuntu1804" {
   name = "/aws/service/canonical/ubuntu/server/18.04/stable/current/amd64/hvm/ebs-gp2/ami-id"
 }

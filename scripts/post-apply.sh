@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2022, 2026
+
 export CONSUL_BOOTSTRAP_TOKEN=$(terraform output -raw consul_bootstrap_token)
 
 echo "$CONSUL_BOOTSTRAP_TOKEN" > consul_token.txt

@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2022, 2026
+
 # User Facing Client Service
 resource "aws_ecs_service" "client" {
   name            = "${local.project_tag}-client"

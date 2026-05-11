@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2022, 2026
+
 # Consul Instance Role
 resource "aws_iam_role" "consul_instance" {
   name_prefix        = "${local.project_tag}-role-"

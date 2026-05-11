@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2022, 2026
+
 # Root Certificate Authority
 resource "tls_private_key" "ca_key" {
   algorithm   = "ECDSA"

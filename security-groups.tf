@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2022, 2026
+
 # Security Group for Client ALB
 resource "aws_security_group" "client_alb" {
   name_prefix = "${local.project_tag}-ecs-client-alb"
