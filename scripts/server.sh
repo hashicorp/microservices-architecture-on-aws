@@ -1,4 +1,6 @@
 #!/bin/bash
+# Copyright IBM Corp. 2022, 2026
+
 
 # Install Consul.  This verifies the download via GPG and then creates...
 # 1 - a default /etc/consul.d/consul.hcl

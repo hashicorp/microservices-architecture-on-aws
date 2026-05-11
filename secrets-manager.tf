@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2022, 2026
+
 resource "aws_secretsmanager_secret" "consul_gossip_key" {
   name_prefix = "${local.project_tag}-gossip-key-"
 }

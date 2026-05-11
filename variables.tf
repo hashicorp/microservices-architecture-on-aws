@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2022, 2026
+
 variable "default_tags" {
   type        = map(string)
   description = "Map of default tags to apply to resources"

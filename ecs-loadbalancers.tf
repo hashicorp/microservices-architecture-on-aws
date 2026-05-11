@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2022, 2026
+
 # User Facing Client Application Load Balancer
 resource "aws_lb" "client_alb" {
   name_prefix        = "cl-" # 6 char length

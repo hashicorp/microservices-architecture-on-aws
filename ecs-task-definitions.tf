@@ -1,3 +1,5 @@
+# Copyright IBM Corp. 2022, 2026
+
 # User Facing Client Task Definition
 # --
 # This is the container that will serve as the entry point for public facing traffic
